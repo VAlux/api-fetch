@@ -1,0 +1,35 @@
+server:
+  port: 7071
+
+http:
+  client:
+    config:
+      timeout: 30000
+      socket_timeout: 30000
+
+auth:
+  oauth2:
+    serverUrl: https://auth.weather.mg/oauth/token
+    clientId: mosi-service
+    clientSecret: r9h2eunTPwK8RN8YXOsI1IuYeA0D93ch
+
+fetching:
+  request:
+    "https://point-forecast.weather.mg/search?\
+    locatedAt=6.8833,52.7333\
+    &fields=\
+    airTemperatureInCelsius,\
+    relativeHumidityInPercent,\
+    precipitationProbabilityInPercent,\
+    precipitationAmountInMillimeter,\
+    windDirectionInDegree,\
+    windSpeedInMeterPerSecond,\
+    globalRadiationInJoulePerSquareCentimeter,\
+    cloudCoverLowerThan5000MeterInOcta\
+    &validPeriod=PT1H"
+  response-root-key: forecasts
+  directory: fetched_data
+  file-prefix: mosi_api_snapshots_pt1h #subdir for storing the processed data
+  file-extension: csv
+#  frequency: "* * * * * *"
+  frequency: 0 0,10,20,30,40,50 * * * *
