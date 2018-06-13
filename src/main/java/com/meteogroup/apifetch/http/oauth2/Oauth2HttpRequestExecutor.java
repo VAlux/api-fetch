@@ -1,7 +1,8 @@
-package com.meteogroup.apifetch.auth;
+package com.meteogroup.apifetch.http.oauth2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meteogroup.apifetch.http.HttpRequestExecutor;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -11,6 +12,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -19,16 +21,17 @@ import java.time.ZonedDateTime;
  * Simple http requesting service,
  * which uses provided authorization server to authorize requests.
  */
-public class HttpRequestExecutor {
+@Component
+public class Oauth2HttpRequestExecutor implements HttpRequestExecutor {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequestExecutor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Oauth2HttpRequestExecutor.class);
 
   private final CloseableHttpClient httpClient;
   private final ObjectMapper jacksonObjectMapper;
   private final AuthorizationServer authServer;
   private ClientCredentialsResponse token;
 
-  public HttpRequestExecutor(CloseableHttpClient httpClient, AuthorizationServer authServer) {
+  public Oauth2HttpRequestExecutor(CloseableHttpClient httpClient, AuthorizationServer authServer) {
     this.httpClient = httpClient;
     this.authServer = authServer;
     this.jacksonObjectMapper = new ObjectMapper();
@@ -41,6 +44,7 @@ public class HttpRequestExecutor {
    * @return obtained {@link CloseableHttpResponse}
    * @throws IOException in case of network, marshalling or error response.
    */
+  @Override
   public CloseableHttpResponse execute(HttpRequestBase request) throws IOException {
     LOGGER.info("Executing http request: [{}]", request);
     final String authorizationHeaderValue = String.format("Bearer %s", obtainAccessToken());
@@ -55,12 +59,14 @@ public class HttpRequestExecutor {
 
   /**
    * Execute with custom response handler
-   * @param request desired {@link HttpRequestBase} to be executed
+   *
+   * @param request         desired {@link HttpRequestBase} to be executed
    * @param responseHandler handler for response processing
-   * @param <T> type of the entity, which will be returned by the specified response handler
+   * @param <T>             type of the entity, which will be returned by the specified response handler
    * @return entity, produced by the specified response handler
    * @throws IOException in case of network, marshalling or error response.
    */
+  @Override
   public <T> T execute(HttpRequestBase request, ResponseHandler<T> responseHandler) throws IOException {
     LOGGER.info("Executing http request: [{}]", request);
     final String authorizationHeaderValue = String.format("Bearer %s", obtainAccessToken());
@@ -78,6 +84,7 @@ public class HttpRequestExecutor {
    * @return mapped response according to type parameter.
    * @throws IOException in case of network, marshalling or error response.
    */
+  @Override
   public <T> T execute(HttpRequestBase request, TypeReference<T> typeReference) throws IOException {
     try (CloseableHttpResponse response = execute(request)) {
       return jacksonObjectMapper.readValue(response.getEntity().getContent(), typeReference);
@@ -96,6 +103,7 @@ public class HttpRequestExecutor {
    * @return mapped response according to type parameter.
    * @throws IOException in case of network, marshalling or error response.
    */
+  @Override
   public <T> T execute(HttpRequestBase request, int retryAmount, TypeReference<T> typeReference) throws IOException {
     try {
       return execute(request, typeReference);
@@ -118,6 +126,7 @@ public class HttpRequestExecutor {
    * @return mapped response according to type parameter.
    * @throws IOException in case of network, marshalling or error response.
    */
+  @Override
   public CloseableHttpResponse execute(HttpRequestBase request, int retryAmount) throws IOException {
     try (CloseableHttpResponse response = execute(request)) {
       return response;

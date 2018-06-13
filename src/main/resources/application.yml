@@ -14,7 +14,7 @@ auth:
     clientSecret: r9h2eunTPwK8RN8YXOsI1IuYeA0D93ch
 
 fetching:
-  fetching-task-properties:
+  fetching-task-properties: #array of fetching task definitions
     -
       description: mosi-pt1h-fetch
       request:
@@ -55,7 +55,7 @@ fetching:
         globalRadiationInJoulePerSquareCentimeter,\
         cloudCoverLowerThan5000MeterInOcta\
         &validPeriod=PT0S"
-      response-root-key: forecasts
+      response-root-key: forecasts # root element in the response
       directory: fetched_data
       file-prefix: mosi_api_snapshots_pt0s #subdir for storing the processed data
       file-extension: csv

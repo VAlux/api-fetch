@@ -1,4 +1,4 @@
-package com.meteogroup.apifetch.auth;
+package com.meteogroup.apifetch.http.oauth2;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

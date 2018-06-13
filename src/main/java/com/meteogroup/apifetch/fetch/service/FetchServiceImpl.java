@@ -1,6 +1,6 @@
 package com.meteogroup.apifetch.fetch.service;
 
-import com.meteogroup.apifetch.auth.HttpRequestExecutor;
+import com.meteogroup.apifetch.http.oauth2.Oauth2HttpRequestExecutor;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
@@ -18,10 +18,10 @@ public class FetchServiceImpl implements FetchService<String> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FetchServiceImpl.class);
 
-  private final HttpRequestExecutor executor;
+  private final Oauth2HttpRequestExecutor executor;
 
   @Autowired
-  public FetchServiceImpl(HttpRequestExecutor executor) {
+  public FetchServiceImpl(Oauth2HttpRequestExecutor executor) {
     this.executor = executor;
   }
 

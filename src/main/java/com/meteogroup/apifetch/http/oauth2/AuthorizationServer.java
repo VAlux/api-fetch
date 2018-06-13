@@ -1,4 +1,4 @@
-package com.meteogroup.apifetch.auth;
+package com.meteogroup.apifetch.http.oauth2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;

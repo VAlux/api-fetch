@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("nopContentProcessingService")
-public class NopFetchedContentProcessingService implements FetchedContentProcessingService<Object> {
+public class NopFetchedContentProcessor implements FetchedContentProcessor<Object> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(NopFetchedContentProcessingService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NopFetchedContentProcessor.class);
 
   @Override
   public void process(Object content) {

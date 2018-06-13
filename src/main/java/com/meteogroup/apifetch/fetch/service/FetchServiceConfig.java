@@ -1,7 +1,7 @@
 package com.meteogroup.apifetch.fetch.service;
 
-import com.meteogroup.apifetch.auth.AuthorizationServer;
-import com.meteogroup.apifetch.auth.HttpRequestExecutor;
+import com.meteogroup.apifetch.http.oauth2.AuthorizationServer;
+import com.meteogroup.apifetch.http.oauth2.Oauth2HttpRequestExecutor;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +21,9 @@ public class FetchServiceConfig {
   private String authClientSecret;
 
   @Bean
-  public HttpRequestExecutor requestExecutor() {
+  public Oauth2HttpRequestExecutor requestExecutor() {
     CloseableHttpClient httpClient = HttpClients.createDefault();
     AuthorizationServer authServer = new AuthorizationServer(authServerUrl, authClientId, authClientSecret, httpClient);
-    return new HttpRequestExecutor(httpClient, authServer);
+    return new Oauth2HttpRequestExecutor(httpClient, authServer);
   }
 }

@@ -1,5 +1,5 @@
 package com.meteogroup.apifetch.process;
 
-public interface FetchedContentProcessingService<T> {
+public interface FetchedContentProcessor<T> {
   void process(T content);
 }
