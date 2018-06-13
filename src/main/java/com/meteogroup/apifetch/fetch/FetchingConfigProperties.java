@@ -8,6 +8,9 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "fetching")
 public class FetchingConfigProperties {
+
+  private Integer poolSize;
+
   private List<FetchingTaskProperties> fetchingTaskProperties;
 
   public List<FetchingTaskProperties> getFetchingTaskProperties() {
@@ -16,6 +19,14 @@ public class FetchingConfigProperties {
 
   public void setFetchingTaskProperties(List<FetchingTaskProperties> fetchingTaskProperties) {
     this.fetchingTaskProperties = fetchingTaskProperties;
+  }
+
+  public Integer getPoolSize() {
+    return poolSize;
+  }
+
+  public void setPoolSize(Integer poolSize) {
+    this.poolSize = poolSize;
   }
 
   public static class FetchingTaskProperties {

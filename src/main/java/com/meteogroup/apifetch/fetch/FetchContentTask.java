@@ -8,8 +8,9 @@ public class FetchContentTask<T> extends FetchTask<T> {
 
   public FetchContentTask(FetchService<T> fetchService,
                           FetchedContentProcessor<T> processingService,
+                          String description,
                           String requestUrl) {
-    super(fetchService, processingService);
+    super(description, fetchService, processingService);
     this.requestUrl = requestUrl;
   }
 

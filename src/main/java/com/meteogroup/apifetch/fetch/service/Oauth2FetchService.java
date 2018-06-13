@@ -14,14 +14,14 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 
 @Service
-public class FetchServiceImpl implements FetchService<String> {
+public class Oauth2FetchService implements FetchService<String> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FetchServiceImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Oauth2FetchService.class);
 
   private final Oauth2HttpRequestExecutor executor;
 
   @Autowired
-  public FetchServiceImpl(Oauth2HttpRequestExecutor executor) {
+  public Oauth2FetchService(Oauth2HttpRequestExecutor executor) {
     this.executor = executor;
   }
 

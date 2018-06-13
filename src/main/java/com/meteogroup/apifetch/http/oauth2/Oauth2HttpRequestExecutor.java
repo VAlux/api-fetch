@@ -12,7 +12,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -21,7 +20,6 @@ import java.time.ZonedDateTime;
  * Simple http requesting service,
  * which uses provided authorization server to authorize requests.
  */
-@Component
 public class Oauth2HttpRequestExecutor implements HttpRequestExecutor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Oauth2HttpRequestExecutor.class);

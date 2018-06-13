@@ -14,6 +14,7 @@ auth:
     clientSecret: r9h2eunTPwK8RN8YXOsI1IuYeA0D93ch
 
 fetching:
+  pool-size: 2 #amount of threads, reserved for fetching tasks execution
   fetching-task-properties: #array of fetching task definitions
     -
       description: mosi-pt1h-fetch
@@ -36,8 +37,8 @@ fetching:
       directory: fetched_data
       file-prefix: mosi_api_snapshots_pt1h #subdir for storing the processed data
       file-extension: csv
-#      frequency: "* * * * * *"
-      frequency: 0 0,10,20,30,40,50 * * * *
+      frequency: "* * * * * *"
+#      frequency: 0 0,10,20,30,40,50 * * * *
     -
       description: mosi-pt0s-fetch
       request:
@@ -59,5 +60,5 @@ fetching:
       directory: fetched_data
       file-prefix: mosi_api_snapshots_pt0s #subdir for storing the processed data
       file-extension: csv
-#      frequency: "* * * * * *"
-      frequency: 0 0,10,20,30,40,50 * * * *
+      frequency: "* * * * * *"
+#      frequency: 0 0,10,20,30,40,50 * * * *

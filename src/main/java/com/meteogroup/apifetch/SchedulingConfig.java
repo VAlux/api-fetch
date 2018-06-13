@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class SchedulingConfig implements SchedulingConfigurer {
 
-  private static final int POOL_SIZE = 10;
+  private static final String FETCHING_TASK_POOL_NAME = "fetching-tasks-pool-";
 
   private final FetchingConfigProperties properties;
   private final FetchService<String> fetchService;
@@ -40,8 +40,8 @@ public class SchedulingConfig implements SchedulingConfigurer {
   public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
     final ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
-    threadPoolTaskScheduler.setPoolSize(POOL_SIZE);
-    threadPoolTaskScheduler.setThreadNamePrefix("fetching-task-pool-");
+    threadPoolTaskScheduler.setPoolSize(properties.getPoolSize());
+    threadPoolTaskScheduler.setThreadNamePrefix(FETCHING_TASK_POOL_NAME);
     threadPoolTaskScheduler.initialize();
 
     scheduledTaskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
@@ -54,14 +54,18 @@ public class SchedulingConfig implements SchedulingConfigurer {
   }
 
   private CronTask createTask(FetchingTaskProperties taskProperties) {
-    final JsonToCsvContentTransformer contentTransformer =
+    JsonToCsvContentTransformer contentTransformer =
         new JsonToCsvContentTransformer(taskProperties);
 
-    final FileBasedContentProcessor processingService =
+    FileBasedContentProcessor processingService =
         new FileBasedContentProcessor(filenameFormatter, contentTransformer, taskProperties);
 
-    final FetchContentTask<String> fetchContentTask =
-        new FetchContentTask<>(fetchService, processingService, taskProperties.getRequest());
+    FetchContentTask<String> fetchContentTask =
+        new FetchContentTask<>(
+            fetchService,
+            processingService,
+            taskProperties.getDescription(),
+            taskProperties.getRequest());
 
     return new CronTask(fetchContentTask, taskProperties.getFrequency());
   }
