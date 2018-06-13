@@ -1,5 +1,5 @@
 server:
-  port: 7071
+  port: 7072
 
 http:
   client:
@@ -14,22 +14,50 @@ auth:
     clientSecret: r9h2eunTPwK8RN8YXOsI1IuYeA0D93ch
 
 fetching:
-  request:
-    "https://point-forecast.weather.mg/search?\
-    locatedAt=6.8833,52.7333\
-    &fields=\
-    airTemperatureInCelsius,\
-    relativeHumidityInPercent,\
-    precipitationProbabilityInPercent,\
-    precipitationAmountInMillimeter,\
-    windDirectionInDegree,\
-    windSpeedInMeterPerSecond,\
-    globalRadiationInJoulePerSquareCentimeter,\
-    cloudCoverLowerThan5000MeterInOcta\
-    &validPeriod=PT1H"
-  response-root-key: forecasts
-  directory: fetched_data
-  file-prefix: mosi_api_snapshots_pt1h #subdir for storing the processed data
-  file-extension: csv
-#  frequency: "* * * * * *"
-  frequency: 0 0,10,20,30,40,50 * * * *
+  fetching-task-properties:
+    -
+      description: mosi-pt1h-fetch
+      request:
+        "https://point-forecast.weather.mg/search?\
+        locatedAt=6.8833,52.7333\
+        &validFrom=2018-06-11T00:00:00Z\
+        &validUntil=2018-06-22T23:00:00Z\
+        &fields=\
+        airTemperatureInCelsius,\
+        relativeHumidityInPercent,\
+        precipitationProbabilityInPercent,\
+        precipitationAmountInMillimeter,\
+        windDirectionInDegree,\
+        windSpeedInMeterPerSecond,\
+        globalRadiationInJoulePerSquareCentimeter,\
+        cloudCoverLowerThan5000MeterInOcta\
+        &validPeriod=PT1H"
+      response-root-key: forecasts # root element in the response
+      directory: fetched_data
+      file-prefix: mosi_api_snapshots_pt1h #subdir for storing the processed data
+      file-extension: csv
+#      frequency: "* * * * * *"
+      frequency: 0 0,10,20,30,40,50 * * * *
+    -
+      description: mosi-pt0s-fetch
+      request:
+        "https://point-forecast.weather.mg/search?\
+        locatedAt=6.8833,52.7333\
+        &validFrom=2018-06-11T00:00:00Z\
+        &validUntil=2018-06-22T23:00:00Z\
+        &fields=\
+        airTemperatureInCelsius,\
+        relativeHumidityInPercent,\
+        precipitationProbabilityInPercent,\
+        precipitationAmountInMillimeter,\
+        windDirectionInDegree,\
+        windSpeedInMeterPerSecond,\
+        globalRadiationInJoulePerSquareCentimeter,\
+        cloudCoverLowerThan5000MeterInOcta\
+        &validPeriod=PT0S"
+      response-root-key: forecasts
+      directory: fetched_data
+      file-prefix: mosi_api_snapshots_pt0s #subdir for storing the processed data
+      file-extension: csv
+#      frequency: "* * * * * *"
+      frequency: 0 0,10,20,30,40,50 * * * *

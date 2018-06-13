@@ -3,70 +3,84 @@ package com.meteogroup.apifetch.fetch;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 @ConfigurationProperties(prefix = "fetching")
 public class FetchingConfigProperties {
-  private String description;
-  private String request;
-  private String responseRootKey;
-  private String directory;
-  private String filePrefix;
-  private String fileExtension;
-  private String frequency;
+  private List<FetchingTaskProperties> fetchingTaskProperties;
 
-  public String getRequest() {
-    return request;
+  public List<FetchingTaskProperties> getFetchingTaskProperties() {
+    return fetchingTaskProperties;
   }
 
-  public void setRequest(String request) {
-    this.request = request;
+  public void setFetchingTaskProperties(List<FetchingTaskProperties> fetchingTaskProperties) {
+    this.fetchingTaskProperties = fetchingTaskProperties;
   }
 
-  public String getResponseRootKey() {
-    return responseRootKey;
-  }
+  public static class FetchingTaskProperties {
+    private String description;
+    private String request;
+    private String responseRootKey;
+    private String directory;
+    private String filePrefix;
+    private String fileExtension;
+    private String frequency;
 
-  public void setResponseRootKey(String responseRootKey) {
-    this.responseRootKey = responseRootKey;
-  }
+    public String getRequest() {
+      return request;
+    }
 
-  public String getDirectory() {
-    return directory;
-  }
+    public void setRequest(String request) {
+      this.request = request;
+    }
 
-  public void setDirectory(String directory) {
-    this.directory = directory;
-  }
+    public String getResponseRootKey() {
+      return responseRootKey;
+    }
 
-  public String getFilePrefix() {
-    return filePrefix;
-  }
+    public void setResponseRootKey(String responseRootKey) {
+      this.responseRootKey = responseRootKey;
+    }
 
-  public void setFilePrefix(String filePrefix) {
-    this.filePrefix = filePrefix;
-  }
+    public String getDirectory() {
+      return directory;
+    }
 
-  public String getFileExtension() {
-    return fileExtension;
-  }
+    public void setDirectory(String directory) {
+      this.directory = directory;
+    }
 
-  public void setFileExtension(String fileExtension) {
-    this.fileExtension = fileExtension;
-  }
+    public String getFilePrefix() {
+      return filePrefix;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public void setFilePrefix(String filePrefix) {
+      this.filePrefix = filePrefix;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public String getFileExtension() {
+      return fileExtension;
+    }
 
-  public String getFrequency() {
-    return frequency;
-  }
+    public void setFileExtension(String fileExtension) {
+      this.fileExtension = fileExtension;
+    }
 
-  public void setFrequency(String frequency) {
-    this.frequency = frequency;
+    public String getDescription() {
+      return description;
+    }
+
+    public void setDescription(String description) {
+      this.description = description;
+    }
+
+    public String getFrequency() {
+      return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+      this.frequency = frequency;
+    }
   }
 }
