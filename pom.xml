@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meteogroup.wapifetch</groupId>
-    <artifactId>wapi-fetch-pt1h</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <artifactId>api-fetch</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>wapi-fetch</name>
-    <description>Weather API fetching tool</description>
+    <name>api-fetch</name>
+    <description>API fetching tool</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -63,6 +63,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
