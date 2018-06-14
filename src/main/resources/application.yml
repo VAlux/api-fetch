@@ -9,9 +9,9 @@ http:
 
 auth:
   oauth2:
-    serverUrl: https://auth.weather.mg/oauth/token
-    clientId: ov-test
-    clientSecret: lDbsveUSKEiQmxynwa0dhLhRkss8E6h1
+    serverUrl: ###
+    clientId: ###
+    clientSecret: ###
 
 fetching:
   pool-size: 4 #amount of threads, reserved for fetching tasks execution
