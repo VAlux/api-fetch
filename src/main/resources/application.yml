@@ -10,14 +10,14 @@ http:
 auth:
   oauth2:
     serverUrl: https://auth.weather.mg/oauth/token
-    clientId: mosi-service
-    clientSecret: r9h2eunTPwK8RN8YXOsI1IuYeA0D93ch
+    clientId: ov-test
+    clientSecret: lDbsveUSKEiQmxynwa0dhLhRkss8E6h1
 
 fetching:
-  pool-size: 2 #amount of threads, reserved for fetching tasks execution
+  pool-size: 4 #amount of threads, reserved for fetching tasks execution
   fetching-task-properties: #array of fetching task definitions
     -
-      description: mosi-pt1h-fetch
+      description: mosi-pt1h-csv-fetch
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
@@ -35,12 +35,37 @@ fetching:
         &validPeriod=PT1H"
       response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_snapshots_pt1h #subdir for storing the processed data
-      file-extension: csv
+      file-prefix: mosi_api_csv_snapshots_pt1h #subdir for storing the processed data
+      source-content-type: json
+      target-content-type: csv
       frequency: "* * * * * *"
 #      frequency: 0 0,10,20,30,40,50 * * * *
     -
-      description: mosi-pt0s-fetch
+      description: mosi-pt1h-json-fetch
+      request:
+        "https://point-forecast.weather.mg/search?\
+        locatedAt=6.8833,52.7333\
+        &validFrom=2018-06-11T00:00:00Z\
+        &validUntil=2018-06-22T23:00:00Z\
+        &fields=\
+        airTemperatureInCelsius,\
+        relativeHumidityInPercent,\
+        precipitationProbabilityInPercent,\
+        precipitationAmountInMillimeter,\
+        windDirectionInDegree,\
+        windSpeedInMeterPerSecond,\
+        globalRadiationInJoulePerSquareCentimeter,\
+        cloudCoverLowerThan5000MeterInOcta\
+        &validPeriod=PT1H"
+      response-root-key: forecasts # root element in the response
+      directory: fetched_data
+      file-prefix: mosi_api_json_snapshots_pt1h #subdir for storing the processed data
+      source-content-type: json
+      target-content-type: json
+      frequency: "* * * * * *"
+#      frequency: 0 0,10,20,30,40,50 * * * *
+    -
+      description: mosi-pt0s-csv-fetch
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
@@ -58,7 +83,32 @@ fetching:
         &validPeriod=PT0S"
       response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_snapshots_pt0s #subdir for storing the processed data
-      file-extension: csv
+      file-prefix: mosi_api_csv_snapshots_pt0s #subdir for storing the processed data
+      source-content-type: json
+      target-content-type: csv
+      frequency: "* * * * * *"
+#      frequency: 0 0,10,20,30,40,50 * * * *
+    -
+      description: mosi-pt0s-json-fetch
+      request:
+        "https://point-forecast.weather.mg/search?\
+        locatedAt=6.8833,52.7333\
+        &validFrom=2018-06-11T00:00:00Z\
+        &validUntil=2018-06-22T23:00:00Z\
+        &fields=\
+        airTemperatureInCelsius,\
+        relativeHumidityInPercent,\
+        precipitationProbabilityInPercent,\
+        precipitationAmountInMillimeter,\
+        windDirectionInDegree,\
+        windSpeedInMeterPerSecond,\
+        globalRadiationInJoulePerSquareCentimeter,\
+        cloudCoverLowerThan5000MeterInOcta\
+        &validPeriod=PT0S"
+      response-root-key: forecasts # root element in the response
+      directory: fetched_data
+      file-prefix: mosi_api_json_snapshots_pt0s #subdir for storing the processed data
+      source-content-type: json
+      target-content-type: json
       frequency: "* * * * * *"
 #      frequency: 0 0,10,20,30,40,50 * * * *

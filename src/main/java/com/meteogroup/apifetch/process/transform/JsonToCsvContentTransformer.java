@@ -1,24 +1,39 @@
 package com.meteogroup.apifetch.process.transform;
 
-import com.meteogroup.apifetch.fetch.FetchingConfigProperties.FetchingTaskProperties;
 import com.meteogroup.apifetch.process.FetchedContentTransformer;
+import com.meteogroup.apifetch.process.transform.exception.UnsupportedContentStructureException;
 import org.json.CDL;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
-public class JsonToCsvContentTransformer implements FetchedContentTransformer<String, String> {
+/**
+ * Transform json content to csv content.
+ * Currently supports only json arrays as a root json content type.
+ */
+@Component
+public class JsonToCsvContentTransformer implements FetchedContentTransformer {
 
-  private final FetchingTaskProperties properties;
-
-  public JsonToCsvContentTransformer(FetchingTaskProperties properties) {
-    this.properties = properties;
+  @Override
+  public String transform(String input) throws UnsupportedContentStructureException {
+    final JSONObject json = new JSONObject(input);
+    for (Object elementName : json.names()) {
+      final Object element = json.get((String) elementName);
+      if (element instanceof JSONArray) {
+        final JSONArray array = ((JSONArray) element);
+        return CDL.toString(array);
+      }
+    }
+    throw new UnsupportedContentStructureException("Can parse only json arrays as root elements.");
   }
 
-  public String transform(String input) {
-    final JSONObject json = new JSONObject(input);
-    final String responseRootKey = properties.getResponseRootKey();
-    if (responseRootKey != null) {
-      return CDL.toString(json.getJSONArray(responseRootKey));
-    }
-    return CDL.toString(json.names());
+  @Override
+  public ContentType getSourceContentType() {
+    return ContentType.JSON;
+  }
+
+  @Override
+  public ContentType getTargetContentType() {
+    return ContentType.CSV;
   }
 }

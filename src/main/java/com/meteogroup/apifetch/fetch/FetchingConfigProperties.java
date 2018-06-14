@@ -35,7 +35,8 @@ public class FetchingConfigProperties {
     private String responseRootKey;
     private String directory;
     private String filePrefix;
-    private String fileExtension;
+    private String sourceContentType;
+    private String targetContentType;
     private String frequency;
 
     public String getRequest() {
@@ -70,12 +71,20 @@ public class FetchingConfigProperties {
       this.filePrefix = filePrefix;
     }
 
-    public String getFileExtension() {
-      return fileExtension;
+    public String getSourceContentType() {
+      return sourceContentType;
     }
 
-    public void setFileExtension(String fileExtension) {
-      this.fileExtension = fileExtension;
+    public void setSourceContentType(String sourceContentType) {
+      this.sourceContentType = sourceContentType;
+    }
+
+    public String getTargetContentType() {
+      return targetContentType;
+    }
+
+    public void setTargetContentType(String targetContentType) {
+      this.targetContentType = targetContentType;
     }
 
     public String getDescription() {
@@ -93,5 +102,27 @@ public class FetchingConfigProperties {
     public void setFrequency(String frequency) {
       this.frequency = frequency;
     }
+
+    @Override
+    public String toString() {
+      return "FetchingTaskProperties{" +
+          "description='" + description + '\'' +
+          ", request='" + request + '\'' +
+          ", responseRootKey='" + responseRootKey + '\'' +
+          ", directory='" + directory + '\'' +
+          ", filePrefix='" + filePrefix + '\'' +
+          ", sourceContentType='" + sourceContentType + '\'' +
+          ", targetContentType='" + targetContentType + '\'' +
+          ", frequency='" + frequency + '\'' +
+          '}';
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "FetchingConfigProperties{" +
+        "poolSize=" + poolSize +
+        ", fetchingTaskProperties=" + fetchingTaskProperties +
+        '}';
   }
 }

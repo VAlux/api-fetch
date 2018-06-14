@@ -4,9 +4,10 @@ import com.meteogroup.apifetch.fetch.FetchContentTask;
 import com.meteogroup.apifetch.fetch.FetchingConfigProperties;
 import com.meteogroup.apifetch.fetch.FetchingConfigProperties.FetchingTaskProperties;
 import com.meteogroup.apifetch.fetch.service.FetchService;
+import com.meteogroup.apifetch.process.FetchedContentTransformer;
 import com.meteogroup.apifetch.process.file.FileBasedContentProcessor;
 import com.meteogroup.apifetch.process.file.FilenameFormatter;
-import com.meteogroup.apifetch.process.transform.JsonToCsvContentTransformer;
+import com.meteogroup.apifetch.process.transform.ContentTransformerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -26,14 +27,17 @@ public class SchedulingConfig implements SchedulingConfigurer {
   private final FetchingConfigProperties properties;
   private final FetchService<String> fetchService;
   private final FilenameFormatter<Date> filenameFormatter;
+  private final ContentTransformerFactory transformerFactory;
 
   @Autowired
   public SchedulingConfig(FetchingConfigProperties properties,
                           FetchService<String> fetchService,
-                          FilenameFormatter<Date> filenameFormatter) {
+                          FilenameFormatter<Date> filenameFormatter,
+                          ContentTransformerFactory transformerFactory) {
     this.properties = properties;
     this.fetchService = fetchService;
     this.filenameFormatter = filenameFormatter;
+    this.transformerFactory = transformerFactory;
   }
 
   @Override
@@ -54,8 +58,10 @@ public class SchedulingConfig implements SchedulingConfigurer {
   }
 
   private CronTask createTask(FetchingTaskProperties taskProperties) {
-    JsonToCsvContentTransformer contentTransformer =
-        new JsonToCsvContentTransformer(taskProperties);
+    FetchedContentTransformer contentTransformer =
+        transformerFactory.getTransformer(
+            taskProperties.getSourceContentType(),
+            taskProperties.getTargetContentType());
 
     FileBasedContentProcessor processingService =
         new FileBasedContentProcessor(filenameFormatter, contentTransformer, taskProperties);

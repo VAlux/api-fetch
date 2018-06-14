@@ -3,6 +3,7 @@ package com.meteogroup.apifetch.process.file;
 import com.meteogroup.apifetch.fetch.FetchingConfigProperties.FetchingTaskProperties;
 import com.meteogroup.apifetch.process.FetchedContentProcessor;
 import com.meteogroup.apifetch.process.FetchedContentTransformer;
+import com.meteogroup.apifetch.process.transform.exception.ContentTransformationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,11 +21,11 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
   private static final Logger LOGGER = LoggerFactory.getLogger(FileBasedContentProcessor.class);
 
   private final FilenameFormatter<Date> filenameFormatter;
-  private final FetchedContentTransformer<String, String> contentFetchedContentTransformer;
+  private final FetchedContentTransformer contentFetchedContentTransformer;
   private final FetchingTaskProperties properties;
 
   public FileBasedContentProcessor(FilenameFormatter<Date> filenameFormatter,
-                                   FetchedContentTransformer<String, String> contentTransformer,
+                                   FetchedContentTransformer contentTransformer,
                                    FetchingTaskProperties properties) {
     this.filenameFormatter = filenameFormatter;
     this.contentFetchedContentTransformer = contentTransformer;
@@ -50,7 +51,9 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
       Files.write(file.toPath(), transformed);
       LOGGER.info("Contents saved to file: {}", file.getPath());
     } catch (IOException e) {
-      LOGGER.error("Error writing fetched content to file: {}", e.getMessage());
+      LOGGER.error("Error writing fetched content to file: {}", e);
+    } catch (ContentTransformationException e) {
+      LOGGER.error("Error occurred during fetched content transformation: {}", e);
     }
   }
 
@@ -59,6 +62,6 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
         properties.getDirectory(),
         properties.getFilePrefix(),
         filenameFormatter.format(new Date())
-    ).collect(Collectors.joining(File.separator)) + "." + properties.getFileExtension();
+    ).collect(Collectors.joining(File.separator)) + "." + properties.getTargetContentType();
   }
 }
