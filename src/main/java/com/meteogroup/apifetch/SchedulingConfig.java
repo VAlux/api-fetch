@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class SchedulingConfig implements SchedulingConfigurer {
 
-  private static final String FETCHING_TASK_POOL_NAME = "fetching-tasks-pool-";
+  private static final String FETCHING_TASKS_POOL_NAME = "fetching-tasks-pool-";
 
   private final FetchingConfigProperties properties;
   private final FetchService<String> fetchService;
@@ -45,7 +45,7 @@ public class SchedulingConfig implements SchedulingConfigurer {
     final ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
     threadPoolTaskScheduler.setPoolSize(properties.getPoolSize());
-    threadPoolTaskScheduler.setThreadNamePrefix(FETCHING_TASK_POOL_NAME);
+    threadPoolTaskScheduler.setThreadNamePrefix(FETCHING_TASKS_POOL_NAME);
     threadPoolTaskScheduler.initialize();
 
     scheduledTaskRegistrar.setTaskScheduler(threadPoolTaskScheduler);

@@ -20,7 +20,7 @@ public class ContentTransformerFactory {
   @Autowired
   public ContentTransformerFactory(List<FetchedContentTransformer> contentTransformers) {
     this.contentTransformers = contentTransformers;
-    defaultTypeRelation = ContentTypeRelation.create(ContentType.UNKNOWN, ContentType.UNKNOWN);
+    this.defaultTypeRelation = ContentTypeRelation.create(ContentType.UNKNOWN, ContentType.UNKNOWN);
   }
 
   @PostConstruct
@@ -30,7 +30,8 @@ public class ContentTransformerFactory {
   }
 
   public FetchedContentTransformer getTransformer(ContentType source, ContentType target) {
-    return TRANSFORMERS_CACHE.getOrDefault(ContentTypeRelation.create(source, target), getDefaultTransformer());
+    return TRANSFORMERS_CACHE
+        .getOrDefault(ContentTypeRelation.create(source, target), getDefaultTransformer());
   }
 
   public FetchedContentTransformer getTransformer(ContentTypeRelation typeRelation) {
@@ -38,9 +39,8 @@ public class ContentTransformerFactory {
   }
 
   public FetchedContentTransformer getTransformer(String sourceContentType, String targetContentType) {
-    return TRANSFORMERS_CACHE.getOrDefault(
-        ContentTypeRelation.create(sourceContentType, targetContentType),
-        getDefaultTransformer());
+    return TRANSFORMERS_CACHE
+        .getOrDefault(ContentTypeRelation.create(sourceContentType, targetContentType), getDefaultTransformer());
   }
 
   private FetchedContentTransformer getDefaultTransformer() {
