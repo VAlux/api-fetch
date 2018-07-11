@@ -31,7 +31,7 @@ public class Oauth2FetchService implements FetchService<String> {
     try (CloseableHttpResponse response = executor.execute(httpGet)) {
       return Optional.of(StreamUtils.copyToString(response.getEntity().getContent(), Charset.defaultCharset()));
     } catch (IOException e) {
-      LOGGER.error("Cant fetch data: {} URL: {}", e.getMessage(), requestUrl);
+      LOGGER.error("Can't fetch data: {} URL: {}", e.getMessage(), requestUrl);
     }
     return Optional.empty();
   }

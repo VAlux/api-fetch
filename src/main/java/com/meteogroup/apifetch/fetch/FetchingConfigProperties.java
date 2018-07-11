@@ -38,6 +38,7 @@ public class FetchingConfigProperties {
     private String sourceContentType;
     private String targetContentType;
     private String frequency;
+    private String filenameFormat;
 
     public String getRequest() {
       return request;
@@ -103,6 +104,14 @@ public class FetchingConfigProperties {
       this.frequency = frequency;
     }
 
+    public String getFilenameFormat() {
+      return filenameFormat;
+    }
+
+    public void setFilenameFormat(String filenameFormat) {
+      this.filenameFormat = filenameFormat;
+    }
+
     @Override
     public String toString() {
       return "FetchingTaskProperties{" +
@@ -114,6 +123,7 @@ public class FetchingConfigProperties {
           ", sourceContentType='" + sourceContentType + '\'' +
           ", targetContentType='" + targetContentType + '\'' +
           ", frequency='" + frequency + '\'' +
+          ", filenameFormat='" + filenameFormat + '\'' +
           '}';
     }
   }

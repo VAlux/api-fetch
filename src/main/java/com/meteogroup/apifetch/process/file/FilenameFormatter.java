@@ -1,5 +1,9 @@
 package com.meteogroup.apifetch.process.file;
 
-public interface FilenameFormatter<T> {
-  String format(T input);
+import java.util.Optional;
+
+public interface FilenameFormatter {
+  Optional<String> format(String pattern);
+
+  boolean isApplicable(String input);
 }

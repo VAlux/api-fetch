@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,11 +20,11 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FileBasedContentProcessor.class);
 
-  private final FilenameFormatter<Date> filenameFormatter;
+  private final FilenameFormatter filenameFormatter;
   private final FetchedContentTransformer contentFetchedContentTransformer;
   private final FetchingTaskProperties properties;
 
-  public FileBasedContentProcessor(FilenameFormatter<Date> filenameFormatter,
+  public FileBasedContentProcessor(FilenameFormatter filenameFormatter,
                                    FetchedContentTransformer contentTransformer,
                                    FetchingTaskProperties properties) {
     this.filenameFormatter = filenameFormatter;
@@ -61,7 +61,9 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
     return Stream.of(
         properties.getDirectory(),
         properties.getFilePrefix(),
-        filenameFormatter.format(new Date())
+        filenameFormatter
+            .format(properties.getFilenameFormat())
+            .orElse(UUID.randomUUID().toString())
     ).collect(Collectors.joining(File.separator)) + "." + properties.getTargetContentType();
   }
 }

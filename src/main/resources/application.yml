@@ -9,21 +9,22 @@ http:
 
 auth:
   oauth2:
-    serverUrl: ###
-    clientId: ###
-    clientSecret: ###
+    serverUrl: https://auth.weather.mg/oauth/token
+    clientId: ov-test
+    clientSecret: lDbsveUSKEiQmxynwa0dhLhRkss8E6h1
 
 fetching:
-  pool-size: 4 #amount of threads, reserved for fetching tasks execution
-  fetching-task-properties: #array of fetching task definitions
+  pool-size: 4
+  fetching-task-properties:
     -
       description: mosi-pt1h-csv-fetch
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
-        &validFrom=2018-06-11T00:00:00Z\
-        &validUntil=2018-06-22T23:00:00Z\
+        &validFrom=2018-06-25T00:00:00Z\
+        &validUntil=2018-07-05T23:00:00Z\
         &fields=\
+        meteoGroupStationId,\
         airTemperatureInCelsius,\
         relativeHumidityInPercent,\
         precipitationProbabilityInPercent,\
@@ -33,9 +34,9 @@ fetching:
         globalRadiationInJoulePerSquareCentimeter,\
         cloudCoverLowerThan5000MeterInOcta\
         &validPeriod=PT1H"
-      response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_csv_snapshots_pt1h #subdir for storing the processed data
+      file-prefix: mosi_api_csv_snapshots_pt1h
+      filename-format: snapshot-{yyyy-MM-dd-HH-mm-ssZZ}
       source-content-type: json
       target-content-type: csv
       frequency: "* * * * * *"
@@ -45,9 +46,10 @@ fetching:
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
-        &validFrom=2018-06-11T00:00:00Z\
-        &validUntil=2018-06-22T23:00:00Z\
+        &validFrom=2018-06-25T00:00:00Z\
+        &validUntil=2018-07-05T23:00:00Z\
         &fields=\
+        meteoGroupStationId,\
         airTemperatureInCelsius,\
         relativeHumidityInPercent,\
         precipitationProbabilityInPercent,\
@@ -57,9 +59,9 @@ fetching:
         globalRadiationInJoulePerSquareCentimeter,\
         cloudCoverLowerThan5000MeterInOcta\
         &validPeriod=PT1H"
-      response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_json_snapshots_pt1h #subdir for storing the processed data
+      file-prefix: mosi_api_json_snapshots_pt1h
+      filename-format: snapshot-{yyyy-MM-dd-HH-mm-ssZZ}
       source-content-type: json
       target-content-type: json
       frequency: "* * * * * *"
@@ -69,9 +71,10 @@ fetching:
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
-        &validFrom=2018-06-11T00:00:00Z\
-        &validUntil=2018-06-22T23:00:00Z\
+        &validFrom=2018-06-25T00:00:00Z\
+        &validUntil=2018-07-05T23:00:00Z\
         &fields=\
+        meteoGroupStationId,\
         airTemperatureInCelsius,\
         relativeHumidityInPercent,\
         precipitationProbabilityInPercent,\
@@ -81,9 +84,9 @@ fetching:
         globalRadiationInJoulePerSquareCentimeter,\
         cloudCoverLowerThan5000MeterInOcta\
         &validPeriod=PT0S"
-      response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_csv_snapshots_pt0s #subdir for storing the processed data
+      file-prefix: mosi_api_csv_snapshots_pt0s
+      filename-format: snapshot-{yyyy-MM-dd-HH-mm-ssZZ}
       source-content-type: json
       target-content-type: csv
       frequency: "* * * * * *"
@@ -93,9 +96,10 @@ fetching:
       request:
         "https://point-forecast.weather.mg/search?\
         locatedAt=6.8833,52.7333\
-        &validFrom=2018-06-11T00:00:00Z\
-        &validUntil=2018-06-22T23:00:00Z\
+        &validFrom=2018-06-25T00:00:00Z\
+        &validUntil=2018-07-05T23:00:00Z\
         &fields=\
+        meteoGroupStationId,\
         airTemperatureInCelsius,\
         relativeHumidityInPercent,\
         precipitationProbabilityInPercent,\
@@ -105,9 +109,9 @@ fetching:
         globalRadiationInJoulePerSquareCentimeter,\
         cloudCoverLowerThan5000MeterInOcta\
         &validPeriod=PT0S"
-      response-root-key: forecasts # root element in the response
       directory: fetched_data
-      file-prefix: mosi_api_json_snapshots_pt0s #subdir for storing the processed data
+      file-prefix: mosi_api_json_snapshots_pt0s
+      filename-format: snapshot-{yyyy-MM-dd-HH-mm-ssZZ}
       source-content-type: json
       target-content-type: json
       frequency: "* * * * * *"

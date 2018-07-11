@@ -9,13 +9,14 @@ public abstract class FetchTask<T> implements Runnable {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(FetchTask.class);
 
-  protected final String description;
-  protected final FetchService<T> fetchService;
-  protected final FetchedContentProcessor<T> contentProcessor;
+  private final String description;
 
-  protected FetchTask(String description,
-                      FetchService<T> fetchService,
-                      FetchedContentProcessor<T> contentProcessor) {
+  final FetchService<T> fetchService;
+  final FetchedContentProcessor<T> contentProcessor;
+
+  FetchTask(String description,
+            FetchService<T> fetchService,
+            FetchedContentProcessor<T> contentProcessor) {
     this.description = description;
     this.fetchService = fetchService;
     this.contentProcessor = contentProcessor;
@@ -26,6 +27,10 @@ public abstract class FetchTask<T> implements Runnable {
     LOGGER.info("====> Starting executing task: {}", description);
     processFetchedData();
     LOGGER.info("<==== Finished executing task: {}", description);
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   protected abstract void processFetchedData();
