@@ -9,7 +9,7 @@ http:
 
 auth:
   oauth2:
-    serverUrl: https://auth.weather.mg/oauth/token
+    serverUrl: ###
     clientId: ###
     clientSecret: ###
 
