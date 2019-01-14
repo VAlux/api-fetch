@@ -1,6 +1,6 @@
 package com.alvo.apifetch.process.file;
 
-import com.alvo.apifetch.fetch.FetchingConfigProperties;
+import com.alvo.apifetch.fetch.FetchingConfigProperties.FetchingTaskProperties;
 import com.alvo.apifetch.process.FetchedContentProcessor;
 import com.alvo.apifetch.process.FetchedContentTransformer;
 import com.alvo.apifetch.process.transform.exception.ContentTransformationException;
@@ -13,8 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileBasedContentProcessor implements FetchedContentProcessor<String> {
 
@@ -22,11 +20,11 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
 
   private final FilenameFormatter filenameFormatter;
   private final FetchedContentTransformer contentFetchedContentTransformer;
-  private final FetchingConfigProperties.FetchingTaskProperties properties;
+  private final FetchingTaskProperties properties;
 
   public FileBasedContentProcessor(FilenameFormatter filenameFormatter,
                                    FetchedContentTransformer contentTransformer,
-                                   FetchingConfigProperties.FetchingTaskProperties properties) {
+                                   FetchingTaskProperties properties) {
     this.filenameFormatter = filenameFormatter;
     this.contentFetchedContentTransformer = contentTransformer;
     this.properties = properties;
@@ -58,12 +56,12 @@ public class FileBasedContentProcessor implements FetchedContentProcessor<String
   }
 
   private String generateFilename() {
-    return Stream.of(
+    return String.join(File.separator,
         properties.getDirectory(),
         properties.getFilePrefix(),
         filenameFormatter
             .format(properties.getFilenameFormat())
             .orElse(UUID.randomUUID().toString())
-    ).collect(Collectors.joining(File.separator)) + "." + properties.getTargetContentType();
+    ) + "." + properties.getTargetContentType();
   }
 }

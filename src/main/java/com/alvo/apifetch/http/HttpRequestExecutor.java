@@ -10,11 +10,12 @@ import java.io.IOException;
 public interface HttpRequestExecutor {
   CloseableHttpResponse execute(HttpRequestBase request) throws IOException;
 
+  CloseableHttpResponse execute(HttpRequestBase request, int retryAmount) throws IOException;
+
   <T> T execute(HttpRequestBase request, ResponseHandler<T> responseHandler) throws IOException;
 
   <T> T execute(HttpRequestBase request, TypeReference<T> typeReference) throws IOException;
 
   <T> T execute(HttpRequestBase request, int retryAmount, TypeReference<T> typeReference) throws IOException;
 
-  CloseableHttpResponse execute(HttpRequestBase request, int retryAmount) throws IOException;
 }
